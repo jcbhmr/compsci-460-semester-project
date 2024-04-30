@@ -1,4 +1,5 @@
 import socket
+import urllib.request
 from rich import print
 from .utils import pretty_bits
 import time
@@ -10,20 +11,12 @@ def func(args):
     port = int(host.split(":")[1])
     sockets = args.sockets
 
-    print(f"TCP {host} with {sockets} sockets")
+    print(f"HTTP 1.1 GET {host} with {sockets} sockets")
 
     worker_sizes = [0] * sockets
 
     def worker(i: int):
-        client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        client_socket.connect((hostname, port))
-        contents = b""
-        while True:
-            data = client_socket.recv(4096)
-            if not data:
-                break
-            contents += data
-        client_socket.close()
+        contents = urllib.request.urlopen(f"http://{hostname}:{port}/").read()
         worker_sizes[i] = len(contents)
 
     start_time = time.time()
@@ -42,7 +35,6 @@ def func(args):
     total_size = sum(worker_sizes)
     total_time = end_time - start_time
     speed = total_size / total_time
-    print("Summary:")
     print(f"Total size: {total_size} bytes")
     print(f"Total time: {total_time} seconds")
     print(f"Speed: {pretty_bits(speed * 8)}ps")
