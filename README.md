@@ -24,7 +24,13 @@ speedcompare tcp
 
 </table>
 
-### How it works
+There are three modes for the client and the server: tcp, udp, and http11. The options are _mostly_ the same for each mode.
+
+For the server there's `--bind` and `--size`. The server determines how much data to send to the client. The client just counts the data and ends the timer when the connection closes. For UDP since there isn't a connection close event that you can detect from the receiver we use a timeout instead.
+
+On the client there's `--host` and `--sockets` to set the remote server address and the number of simultaneous connections to make. Each connection will be run in a new Python thread.
+
+## How it works
 
 You choose the amount of data to send from the server to the client. When a new client connects to the server it immediately sends that many bytes. The client then can check how long it took to receive the data and calculate the speed.
 
