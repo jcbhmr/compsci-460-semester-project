@@ -1,4 +1,3 @@
-import argparse
 import socket
 import threading
 import time
@@ -16,32 +15,48 @@ def func(args):
     print(f"[bold][blue]Sockets:[/blue][/bold] {sockets}")
     print(f"[bold][blue]Size:[/blue][/bold] {pretty_bytes(size)} or {pretty_bits(size * 8)}")
 
-    # Send only MY PART of the data and let other threads fill in the rest.
-    # Use 1000 byte chunks to avoid errno 90 message too long
-    def send_data(sock: socket.socket, i: int):
-        my_nbytes = size // sockets
-        print(f"Socket {i} sending {pretty_bytes(my_nbytes)}")
-        for _ in range(my_nbytes // 1000):
-            sock.sendto(b"x" * 1000, (hostname, port))
-        sock.sendto(b"x" * (my_nbytes % 1000), (hostname, port))
+    def client_thread(socket_id, host, port, data, response_data):
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
+            client_socket.connect((host, port))
+            client_socket.sendall(data)
+            response = client_socket.recv(len(data))
+            response_data[socket_id] = response
 
-    start = time.time()
-    threads = []
-    socket_list = []
+    data = bytearray(random.getrandbits(8) for _ in range(size))
+    expected_response = data
+
+    sockets = []
+    response_data = [None] * sockets
+
+    start_time = time.time()
+
     for i in range(sockets):
-        sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        thread = threading.Thread(target=send_data, args=(sock, i))
+        socket_id = i
+        thread = threading.Thread(target=client_thread, args=(socket_id, hostname, port, data, response_data))
+        sockets.append(thread)
         thread.start()
-        threads.append(thread)
-        socket_list.append(sock)
-    for thread in threads:
-        thread.join()
-    for sock in socket_list:
-        sock.close()
-    end = time.time()
 
-    speed_bytes = size / (end - start)
+    for socket in sockets:
+        socket.join()
 
-    print(f"[bold][green]Time:[/green][/bold] {end - start:.2f} seconds")
+    end_time = time.time()
+    total_time = end_time - start_time
+
+    # https://stackoverflow.com/questions/17388213/find-the-similarity-metric-between-two-strings
+    total_accuracy = 0
+    for response in response_data:
+        accuracy = SequenceMatcher(None, response, expected_response).ratio()
+        total_accuracy += accuracy
+
+    avg_accuracy = total_accuracy / sockets
+
+    print(f"Test results:")
+    print(f"Number of sockets: {sockets}")
+    print(f"Number of bytes sent per socket: {size}")
+    print(f"Total time taken: {total_time} seconds")
+    print(f"Average accuracy: {avg_accuracy * 100:.2f}%")
+
+    print(f"[bold][green]Time:[/green][/bold] {total_time:.2f} seconds")
     print(f"[bold][green]Size:[/green][/bold] {pretty_bytes(size)} or {pretty_bits(size * 8)}")
-    print(f"[bold][green]Speed:[/green][/bold] {pretty_bytes(speed_bytes)}/s or {pretty_bits(speed_bytes * 8)}/s")
+    print(f"[bold][green]Speed:[/green][/bold] {pretty_bytes(size / total_time)}/s or {pretty_bits((size / total_time) * 8)}/s")
+
