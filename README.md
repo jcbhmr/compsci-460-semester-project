@@ -2,13 +2,30 @@
 
 💻 Basic network speed testing client & server scripts in Python
 
+<p align=center>
+    <img src="https://gist.github.com/assets/61068799/b5b56ee4-6f2e-4655-bcd8-d53aff0098b6">
+</p>
+
+🏫 Final project for COMPUTER NETWORKING class \
+🔀 Compares TCP, HTTP/1.1, and UDP \
+**🙅 Do not use to actually reliably test internet speed**
+
+For a real actual **internet** speed test use [Speedtest by Ookla](https://www.speedtest.net/). This is just a simple Python script that sends data from a server to a client and measures how long it takes to receive the data. Usually the server and client are on the same machine so this is more a test of the netcode of Python and a comparison of the protocols than it is an internet speed test.
+
 ## Installation
+
+![PyPI](https://img.shields.io/static/v1?style=for-the-badge&message=PyPI&color=3775A9&logo=PyPI&logoColor=FFFFFF&label=)
+![Python](https://img.shields.io/static/v1?style=for-the-badge&message=Python&color=3776AB&logo=Python&logoColor=FFFFFF&label=)
 
 ```sh
 pip install git+https://github.com/jcbhmr/speedcompare.git
 ```
 
+⚠️ This `pip install` thing isn't guarenteed to work. The best way to use this project is to clone the repository and run `python -m speedcompare` directly in a dev env.
+
 ## Usage
+
+![Python](https://img.shields.io/static/v1?style=for-the-badge&message=Python&color=3776AB&logo=Python&logoColor=FFFFFF&label=)
 
 <table><td>
 
@@ -129,27 +146,34 @@ $ curl http://localhost:8002 > /dev/null
 
 ## Development
 
-Here's the quick commands to get started:
+![Python](https://img.shields.io/static/v1?style=for-the-badge&message=Python&color=3776AB&logo=Python&logoColor=FFFFFF&label=)
+
+Before anything else you need Python. https://www.bitecode.dev/p/installing-python-the-bare-minimum
+
+Then you need to setup the virtual environment.
+https://www.bitecode.dev/p/back-to-basics-with-pip-and-venv
 
 <table><thead><tr><th>Linux & macOS<th>Windows
 <tbody><tr><td>
 
 ```sh
-ptyhon3.12 -m venv .venv
+ptyhon3.11 -m venv .venv
 . .venv/bin/activate
 ```
 
 <td>
 
 ```ps1
-py -3.12 -m venv .venv
+py -3.11 -m venv .venv
 .venv\Scripts\Activate.ps1
 ```
 
 </table>
 
+Then install the deps.
+
 ```sh
 pip install -r requirements.txt
 ```
 
-Now you can edit the Python code and run `python -m speedcompare` or `python -m speedcompare-server` to run the app locally!
+Now you can edit the Python code and run `python -m speedcompare` or `python -m speedcompare-server` to run the script locally!
