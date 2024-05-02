@@ -4,6 +4,7 @@ from .utils import pretty_bits, pretty_bytes
 import time
 import threading
 
+
 def func(args):
     host = args.host
     hostname = host.split(":")[0]

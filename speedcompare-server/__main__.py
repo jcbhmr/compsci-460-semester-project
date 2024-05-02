@@ -21,7 +21,10 @@ parser_udp.add_argument(
     "--size", type=int, help="Total number of bytes to send", default=10_000_000
 )
 parser_udp.add_argument(
-    "--loop-delay", type=int, help="milliseconds to wait between each 4096 chunk send", default=0
+    "--loop-delay",
+    type=int,
+    help="milliseconds to wait between each 4096 chunk send",
+    default=0,
 )
 parser_udp.set_defaults(func=udp.func)
 

@@ -21,7 +21,10 @@ parser_udp.add_argument(
     "--sockets", type=int, help="Number of sockets to use", default=1
 )
 parser_udp.add_argument(
-    "--expected-size", type=int, help="Expected size of the response", default=10_000_000
+    "--expected-size",
+    type=int,
+    help="Expected size of the response",
+    default=10_000_000,
 )
 parser_udp.set_defaults(func=udp.func)
 

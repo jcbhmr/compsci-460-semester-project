@@ -4,6 +4,7 @@ from .utils import pretty_bits, pretty_bytes
 import time
 import threading
 
+
 def func(args):
     host = args.host
     hostname = host.split(":")[0]
@@ -65,5 +66,3 @@ def func(args):
     print(f"That means we got {percent:.2f}% of the expected size")
     if percent < 50:
         print("UH OH: The actual size was less than 50% of the expected size")
-
-

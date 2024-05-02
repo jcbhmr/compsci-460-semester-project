@@ -2,6 +2,7 @@ from http.server import HTTPServer, BaseHTTPRequestHandler
 from socketserver import ThreadingMixIn
 import threading
 
+
 def func(args):
     host = args.bind
     hostname = host.split(":")[0]

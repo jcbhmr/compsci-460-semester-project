@@ -3,6 +3,7 @@ import threading
 import argparse
 import time
 
+
 def func(args):
     host = args.bind
     hostname = host.split(":")[0]
@@ -27,6 +28,8 @@ def func(args):
     while True:
         data, client_address = server_socket.recvfrom(1024)
         print(f"[*] Received connection from {client_address}")
-        
-        client_handler = threading.Thread(target=handle_client, args=(data, client_address))
+
+        client_handler = threading.Thread(
+            target=handle_client, args=(data, client_address)
+        )
         client_handler.start()
