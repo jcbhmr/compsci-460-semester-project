@@ -3,7 +3,7 @@
 💻 Basic network speed testing client & server scripts in Python
 
 <p align=center>
-    <img src="https://gist.github.com/assets/61068799/b5b56ee4-6f2e-4655-bcd8-d53aff0098b6">
+    <img src="https://github.com/jcbhmr/speedcompare/assets/61068799/6ae9ecca-02e1-4bbf-aee5-df4a1d1d9dd5">
 </p>
 
 🏫 Final project for COMPUTER NETWORKING class \
