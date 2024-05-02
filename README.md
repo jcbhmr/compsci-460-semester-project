@@ -12,31 +12,22 @@
 
 For a real actual **internet** speed test use [Speedtest by Ookla](https://www.speedtest.net/). This is just a simple Python script that sends data from a server to a client and measures how long it takes to receive the data. Usually the server and client are on the same machine so this is more a test of the netcode of Python and a comparison of the protocols than it is an internet speed test.
 
-## Installation
-
-![PyPI](https://img.shields.io/static/v1?style=for-the-badge&message=PyPI&color=3775A9&logo=PyPI&logoColor=FFFFFF&label=)
-![Python](https://img.shields.io/static/v1?style=for-the-badge&message=Python&color=3776AB&logo=Python&logoColor=FFFFFF&label=)
-
-```sh
-pip install git+https://github.com/jcbhmr/speedcompare.git
-```
-
-⚠️ This `pip install` thing isn't guarenteed to work. The best way to use this project is to clone the repository and run `python -m speedcompare` directly in a dev env.
-
 ## Usage
 
 ![Python](https://img.shields.io/static/v1?style=for-the-badge&message=Python&color=3776AB&logo=Python&logoColor=FFFFFF&label=)
 
+ℹ Clone the repository and set up the Python virtual env to get started.
+
 <table><td>
 
 ```sh
-speedcompare-server tcp
+python -m speedcompare-server tcp
 ```
 
 <td>
 
 ```sh
-speedcompare tcp
+python -m speedcompare tcp
 ```
 
 </table>
