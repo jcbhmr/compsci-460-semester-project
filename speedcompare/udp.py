@@ -1,6 +1,6 @@
 import socket
 from rich import print
-from .utils import pretty_bits
+from .utils import pretty_bits, pretty_bytes
 import time
 import threading
 
@@ -26,7 +26,7 @@ def func(args):
             else:
                 client_socket.settimeout(0.3)
             try:
-                data, _ = client_socket.recvfrom(4096)
+                data, _ = client_socket.recvfrom(60000)
                 if not data:
                     break
                 contents += data
@@ -53,17 +53,17 @@ def func(args):
     total_time = end_time - start_time
     speed = total_size / total_time
     print("For UDP:")
-    print(f"Total size: {total_size} bytes")
+    print(f"Total size: {pretty_bytes(total_size)}")
     print(f"Total time: {total_time} seconds")
     print(f"Speed: {pretty_bits(speed * 8)}ps")
 
     percent = (total_size / (expected_size * sockets)) * 100
 
-    print(f"The original expected size was {expected_size} bytes PER SOCKET")
-    print(f"Which is {expected_size * sockets} bytes total")
-    print(f"The actual size was {total_size} bytes")
+    print(f"The original expected size was {pretty_bytes(expected_size)} PER SOCKET")
+    print(f"Which is {pretty_bytes(expected_size * sockets)} total")
+    print(f"The actual size was {pretty_bytes(total_size)} bytes")
     print(f"That means we got {percent:.2f}% of the expected size")
-    if percent < 80:
-        print("UH OH: The actual size was less than 80% of the expected size")
+    if percent < 50:
+        print("UH OH: The actual size was less than 50% of the expected size")
 
 

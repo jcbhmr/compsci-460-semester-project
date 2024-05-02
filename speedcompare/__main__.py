@@ -32,6 +32,9 @@ parser_http11.add_argument(
 parser_http11.add_argument(
     "--sockets", type=int, help="Number of sockets to use", default=1
 )
+parser_http11.add_argument(
+    "--no-compression", type=bool, help="Disable HTTP compression", default=False
+)
 parser_http11.set_defaults(func=http11.func)
 
 args = parser.parse_args()

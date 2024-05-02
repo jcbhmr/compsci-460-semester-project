@@ -1,7 +1,7 @@
 import socket
 import urllib.request
 from rich import print
-from .utils import pretty_bits
+from .utils import pretty_bits, pretty_bytes
 import time
 import threading
 
@@ -10,13 +10,19 @@ def func(args):
     hostname = host.split(":")[0]
     port = int(host.split(":")[1])
     sockets = args.sockets
+    no_compression = args.no_compression
 
     print(f"HTTP 1.1 GET {host} with {sockets} sockets")
 
     worker_sizes = [0] * sockets
 
     def worker(i: int):
-        contents = urllib.request.urlopen(f"http://{hostname}:{port}/").read()
+        url = f"http://{hostname}:{port}/"
+        req = urllib.request.Request(url)
+        if no_compression:
+            req.remove_header("Accept-Encoding")
+            req.add_header("Accept-Encoding", "identity")
+        contents = urllib.request.urlopen(req).read()
         worker_sizes[i] = len(contents)
 
     start_time = time.time()
@@ -35,6 +41,6 @@ def func(args):
     total_size = sum(worker_sizes)
     total_time = end_time - start_time
     speed = total_size / total_time
-    print(f"Total size: {total_size} bytes")
+    print(f"Total size: {pretty_bytes(total_size)} bytes")
     print(f"Total time: {total_time} seconds")
     print(f"Speed: {pretty_bits(speed * 8)}ps")

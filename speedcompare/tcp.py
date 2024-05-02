@@ -1,6 +1,6 @@
 import socket
 from rich import print
-from .utils import pretty_bits
+from .utils import pretty_bits, pretty_bytes
 import time
 import threading
 
@@ -19,7 +19,7 @@ def func(args):
         client_socket.connect((hostname, port))
         contents = b""
         while True:
-            data = client_socket.recv(4096)
+            data = client_socket.recv(60000)
             if not data:
                 break
             contents += data
@@ -43,6 +43,6 @@ def func(args):
     total_time = end_time - start_time
     speed = total_size / total_time
     print("Summary:")
-    print(f"Total size: {total_size} bytes")
+    print(f"Total size: {pretty_bytes(total_size)} bytes")
     print(f"Total time: {total_time} seconds")
     print(f"Speed: {pretty_bits(speed * 8)}ps")
